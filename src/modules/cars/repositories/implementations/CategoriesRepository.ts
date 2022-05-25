@@ -1,44 +1,38 @@
-import { Category } from "../../entities/Category";
+import { Categories, PrismaClient } from "@prisma/client";
+
 import {
   ICategoriesRepository,
   ICreateCategoryDTO,
 } from "../ICategoriesRepository";
 
+const prisma = new PrismaClient();
+
 class CategoriesRepository implements ICategoriesRepository {
-  private categories: Category[];
-
-  private static INSTANCE: CategoriesRepository;
-
-  private constructor() {
-    this.categories = [];
+  private readonly repository: PrismaClient["categories"];
+  constructor() {
+    this.repository = prisma.categories;
   }
 
-  public static getInstance(): CategoriesRepository {
-    if (!CategoriesRepository.INSTANCE) {
-      CategoriesRepository.INSTANCE = new CategoriesRepository();
-    }
-
-    return CategoriesRepository.INSTANCE;
-  }
-
-  create({ name, description }: ICreateCategoryDTO) {
-    const category = new Category();
-
-    Object.assign(category, {
-      name,
-      description,
-      created_at: new Date(),
+  async create({ name, description }: ICreateCategoryDTO) {
+    await this.repository.create({
+      data: {
+        name,
+        description,
+      },
     });
-
-    this.categories.push(category);
   }
 
-  list(): Category[] {
-    return this.categories;
+  async list(): Promise<Categories[]> {
+    const categories = await this.repository.findMany();
+    return categories;
   }
 
-  findByName(name: string): Category {
-    const category = this.categories.find((c) => c.name === name);
+  async findByName(name: string): Promise<Categories> {
+    const category = await this.repository.findUnique({
+      where: {
+        name,
+      },
+    });
 
     return category;
   }

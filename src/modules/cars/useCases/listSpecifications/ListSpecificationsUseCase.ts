@@ -1,11 +1,17 @@
-import { Specification } from "../../entities/Specification";
+import { Specifications } from "@prisma/client";
+import { inject, injectable } from "tsyringe";
+
 import { SpecificationRepository } from "../../repositories/implementations/SpecificationRepository";
 
+@injectable()
 class ListSpecificationsUseCase {
-  constructor(private specificationsRepository: SpecificationRepository) {}
+  constructor(
+    @inject("SpecificationRepository")
+    private specificationsRepository: SpecificationRepository
+  ) {}
 
-  execute(): Specification[] {
-    const specifications = this.specificationsRepository.list();
+  async execute(): Promise<Specifications[]> {
+    const specifications = await this.specificationsRepository.list();
     return specifications;
   }
 }

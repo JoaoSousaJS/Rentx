@@ -1,44 +1,35 @@
-import { Specification } from "../../entities/Specification";
+import { PrismaClient, Specifications } from "@prisma/client";
+
 import {
   ISpecificationRepository,
   ICreateSpecificationDTO,
 } from "../ISpecificationRepository";
 
+const prisma = new PrismaClient();
+
 class SpecificationRepository implements ISpecificationRepository {
-  private specifications: Specification[];
-
-  private static INSTANCE: SpecificationRepository;
-
-  private constructor() {
-    this.specifications = [];
+  private readonly repository: PrismaClient["specifications"];
+  constructor() {
+    this.repository = prisma.specifications;
   }
 
-  public static getInstance(): SpecificationRepository {
-    if (!SpecificationRepository.INSTANCE) {
-      SpecificationRepository.INSTANCE = new SpecificationRepository();
-    }
-
-    return SpecificationRepository.INSTANCE;
+  async create({ name, description }: ICreateSpecificationDTO): Promise<void> {
+    await this.repository.create({
+      data: { name, description },
+    });
   }
 
-  create({ name, description }: ICreateSpecificationDTO): void {
-    const specification = new Specification();
-
-    Object.assign(specification, { name, description, created_at: new Date() });
-
-    this.specifications.push(specification);
-  }
-
-  findByName(name: string): Specification {
-    const specification = this.specifications.find(
-      (specification) => specification.name === name
-    );
+  async findByName(name: string): Promise<Specifications> {
+    const specification = await this.repository.findUnique({
+      where: { name },
+    });
 
     return specification;
   }
 
-  list(): Specification[] {
-    return this.specifications;
+  async list(): Promise<Specifications[]> {
+    const specifications = await this.repository.findMany();
+    return specifications;
   }
 }
 

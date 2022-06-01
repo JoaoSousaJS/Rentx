@@ -1,8 +1,26 @@
+import { PrismaClient } from "@prisma/client";
+
 import { ICreateUserDTO } from "../../dtos/ICreateUserDTO";
 import { IUserRepository } from "../IUserRepository";
 
+const prisma = new PrismaClient();
+
 class UsersRepository implements IUserRepository {
-  create(data: ICreateUserDTO): Promise<void> {
-    throw new Error("Method not implemented.");
+  private readonly repository: PrismaClient["users"];
+  constructor() {
+    this.repository = prisma.users;
+  }
+  async create({
+    name,
+    email,
+    password,
+    username,
+    driverLicense,
+  }: ICreateUserDTO): Promise<void> {
+    await this.repository.create({
+      data: { name, email, password, username, driverLicense },
+    });
   }
 }
+
+export { UsersRepository };

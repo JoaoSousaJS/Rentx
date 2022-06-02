@@ -30,7 +30,6 @@ model Specifications {
 model Users {
   id            String   @id @default(uuid()) @db.Uuid
   name          String
-  username      String   @unique
   password      String
   email         String   @unique
   driverLicense String   @map("driver_license")

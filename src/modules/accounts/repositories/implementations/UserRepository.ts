@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Users } from "@prisma/client";
 
 import { ICreateUserDTO } from "../../dtos/ICreateUserDTO";
 import { IUserRepository } from "../IUserRepository";
@@ -10,6 +10,7 @@ class UsersRepository implements IUserRepository {
   constructor() {
     this.repository = prisma.users;
   }
+
   async create({
     name,
     email,
@@ -19,6 +20,14 @@ class UsersRepository implements IUserRepository {
     await this.repository.create({
       data: { name, email, password, driverLicense },
     });
+  }
+
+  async findByEmail(email: string): Promise<Users> {
+    const user = await this.repository.findUnique({
+      where: { email },
+    });
+
+    return user;
   }
 }
 

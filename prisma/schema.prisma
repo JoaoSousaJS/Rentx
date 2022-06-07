@@ -36,4 +36,5 @@ model Users {
   isAdmin       Boolean  @default(false) @map("is_admin")
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  avatar        String?
 }

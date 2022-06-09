@@ -37,6 +37,17 @@ class UsersRepository implements IUserRepository {
 
     return user;
   }
+
+  async updateAvatar(userId: string, avatarFile: string): Promise<void> {
+    await this.repository.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        avatar: avatarFile,
+      },
+    });
+  }
 }
 
 export { UsersRepository };

@@ -1,6 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
 import { AppError } from "../../../../errors/AppError";
+import { deleteFIle } from "../../../../utils/file";
 import { UsersRepository } from "../../repositories/implementations/UserRepository";
 
 interface IRequest {
@@ -16,6 +17,10 @@ class UpdateUserAvatarUseCase {
   ) {}
   async execute({ userId, avatarFile }: IRequest) {
     const user = await this.usersRepository.findById(userId);
+
+    if (user.avatar) {
+      await deleteFIle(`./tmp/avatar/${user.avatar}`);
+    }
 
     if (!user) {
       throw new AppError("Invalid operation");

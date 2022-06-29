@@ -3,12 +3,14 @@
  * https://jestjs.io/docs/configuration
  */
 
+import "reflect-metadata";
+
 export default {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
   // Stop running tests after `n` failures
-  // bail: 0,
+  bail: true,
 
   // The directory where Jest should store its cached dependency information
   // cacheDirectory: "/private/var/folders/v6/x5wtg_4s3c71_8x3kw5f2wr80000gn/T/jest_dx",
@@ -100,7 +102,7 @@ export default {
   // notifyMode: "failure-change",
 
   // A preset that is used as a base for Jest's configuration
-  // preset: undefined,
+  preset: "ts-jest",
 
   // Run tests from one or more projects
   // projects: undefined,
@@ -132,10 +134,10 @@ export default {
   // runner: "jest-runner",
 
   // The paths to modules that run some code to configure or set up the testing environment before each test
-  // setupFiles: [],
+  // setupFiles: ["<rootDir>/jest.setup.ts"],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
-  // setupFilesAfterEnv: [],
+  setupFilesAfterEnv: ["<rootDir>/jest.config.ts"],
 
   // The number of seconds after which a test is considered as slow and reported as such in the results.
   // slowTestThreshold: 5,
@@ -153,10 +155,7 @@ export default {
   // testLocationInResults: false,
 
   // The glob patterns Jest uses to detect test files
-  // testMatch: [
-  //   "**/__tests__/**/*.[jt]s?(x)",
-  //   "**/?(*.)+(spec|test).[tj]s?(x)"
-  // ],
+  testMatch: ["**/*.spec.ts"],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   // testPathIgnorePatterns: [

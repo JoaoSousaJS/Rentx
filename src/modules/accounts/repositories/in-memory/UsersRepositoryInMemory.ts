@@ -7,15 +7,11 @@ class UsersRepositoryInMemory implements IUserRepository {
   private users: Users[] = [];
 
   public async findByEmail(email: string): Promise<Users | undefined> {
-    const user = this.users.find((user) => user.email === email);
-
-    return user;
+    return this.users.find((user) => user.email === email);
   }
 
   public async findById(id: string): Promise<Users | undefined> {
-    const user = this.users.find((user) => user.id === id);
-
-    return user;
+    return this.users.find((user) => user.id === id);
   }
 
   async updateAvatar(userId: string, avatarFile: string): Promise<void> {

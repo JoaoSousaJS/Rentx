@@ -9,6 +9,12 @@ let usersRepositoryInMemory: UsersRepositoryInMemory;
 let createUserUseCase: CreateUserUseCase;
 
 describe("Authenticate User", () => {
+  const userBody: ICreateUserDTO = {
+    name: "User 1",
+    email: "user@test.com",
+    password: "1234",
+    driverLicense: "000123",
+  };
   beforeEach(() => {
     usersRepositoryInMemory = new UsersRepositoryInMemory();
     authenticateUserUseCase = new AuthenticateUserUseCase(
@@ -18,13 +24,6 @@ describe("Authenticate User", () => {
   });
 
   it("should be able to authenticate an user", async () => {
-    const userBody: ICreateUserDTO = {
-      name: "User 1",
-      email: "user@test.com",
-      password: "1234",
-      driverLicense: "000123",
-    };
-
     await createUserUseCase.execute(userBody);
 
     const result = await authenticateUserUseCase.execute({
@@ -42,5 +41,16 @@ describe("Authenticate User", () => {
         password: "12345",
       });
     }).rejects.toBeInstanceOf(AppError);
+  });
+
+  it("should not be able to authenticate with incorrect password", async () => {
+    await createUserUseCase.execute(userBody);
+
+    await expect(
+      authenticateUserUseCase.execute({
+        email: userBody.email,
+        password: "wrong password",
+      })
+    ).rejects.toBeInstanceOf(AppError);
   });
 });

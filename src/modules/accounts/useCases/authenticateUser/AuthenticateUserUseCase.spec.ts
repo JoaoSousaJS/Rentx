@@ -15,17 +15,16 @@ describe("Authenticate User", () => {
     password: "1234",
     driverLicense: "000123",
   };
-  beforeEach(() => {
+  beforeEach(async () => {
     usersRepositoryInMemory = new UsersRepositoryInMemory();
     authenticateUserUseCase = new AuthenticateUserUseCase(
       usersRepositoryInMemory
     );
     createUserUseCase = new CreateUserUseCase(usersRepositoryInMemory);
+    await createUserUseCase.execute(userBody);
   });
 
   it("should be able to authenticate an user", async () => {
-    await createUserUseCase.execute(userBody);
-
     const result = await authenticateUserUseCase.execute({
       email: userBody.email,
       password: userBody.password,
@@ -44,8 +43,6 @@ describe("Authenticate User", () => {
   });
 
   it("should not be able to authenticate with incorrect password", async () => {
-    await createUserUseCase.execute(userBody);
-
     await expect(
       authenticateUserUseCase.execute({
         email: userBody.email,

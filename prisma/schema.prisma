@@ -17,6 +17,7 @@ model Categories {
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  Cars        Cars[]
 }
 
 model Specifications {
@@ -37,4 +38,20 @@ model Users {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   avatar        String?
+}
+
+model Cars {
+  id           String   @id @default(uuid())
+  name         String   @unique
+  description  String
+  dailyRate    Int      @map("daily_rate")
+  available    Boolean  @default(true)
+  licensePlate String   @map("license_plate")
+  fineAmount   Int      @map("fine_amount")
+  brand        String
+  categoryId   String   @map("category_id")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  Categories Categories @relation(fields: [categoryId], references: [id], onDelete: SetNull, onUpdate: SetNull)
 }

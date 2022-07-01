@@ -1,8 +1,8 @@
 import { inject, injectable } from "tsyringe";
 
-import { AppError } from "../../../../errors/AppError";
+import { AppError } from "../../../../shared/errors/AppError";
 import { deleteFIle } from "../../../../utils/file";
-import { UsersRepository } from "../../repositories/implementations/UserRepository";
+import { UsersRepository } from "../../infra/prisma/repositories/UserRepository";
 
 interface IRequest {
   userId: string;

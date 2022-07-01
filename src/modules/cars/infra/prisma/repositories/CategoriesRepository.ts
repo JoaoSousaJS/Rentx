@@ -1,9 +1,8 @@
-import { Categories, PrismaClient } from "@prisma/client";
-
 import {
   ICategoriesRepository,
   ICreateCategoryDTO,
-} from "../ICategoriesRepository";
+} from "@modules/cars/repositories/ICategoriesRepository";
+import { Categories, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 

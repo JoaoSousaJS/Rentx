@@ -1,7 +1,6 @@
+import { ICreateUserDTO } from "@modules/accounts/dtos/ICreateUserDTO";
+import { IUserRepository } from "@modules/accounts/repositories/IUserRepository";
 import { PrismaClient, Users } from "@prisma/client";
-
-import { ICreateUserDTO } from "../../dtos/ICreateUserDTO";
-import { IUserRepository } from "../IUserRepository";
 
 const prisma = new PrismaClient();
 

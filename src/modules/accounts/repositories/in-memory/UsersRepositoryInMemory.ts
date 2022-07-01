@@ -1,6 +1,6 @@
+import { ICreateUserDTO } from "@modules/accounts/dtos/ICreateUserDTO";
 import { Users } from "@prisma/client";
 
-import { ICreateUserDTO } from "../../dtos/ICreateUserDTO";
 import { IUserRepository } from "../IUserRepository";
 
 class UsersRepositoryInMemory implements IUserRepository {

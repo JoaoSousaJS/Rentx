@@ -1,6 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
 import { ICarsRepository } from "@modules/cars/repositories/ICarsRepository";
+import { AppError } from "@shared/errors/AppError";
 
 interface IRequest {
   name: string;
@@ -27,6 +28,16 @@ class CreateCarUseCase {
     brand,
     categoryId,
   }: IRequest): Promise<void> {
+    const carAlreadyExists = await this.carsRepository.findByLicensePlate(
+      licensePlate
+    );
+
+    if (carAlreadyExists) {
+      throw new AppError(
+        `Car with license plate ${licensePlate} already exists`
+      );
+    }
+
     await this.carsRepository.create({
       name,
       description,

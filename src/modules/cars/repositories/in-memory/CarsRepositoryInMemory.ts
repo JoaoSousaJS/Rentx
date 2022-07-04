@@ -14,7 +14,7 @@ class CarsRepositoryInMemory implements ICarsRepository {
     fineAmount,
     licensePlate,
     categoryId,
-  }: ICreateCarDto): Promise<void> {
+  }: ICreateCarDto): Promise<Cars> {
     this.cars.push({
       id: "",
       name,
@@ -28,6 +28,8 @@ class CarsRepositoryInMemory implements ICarsRepository {
       createdAt: undefined,
       updatedAt: undefined,
     });
+
+    return this.cars[this.cars.length - 1];
   }
 
   async list(): Promise<Cars[]> {

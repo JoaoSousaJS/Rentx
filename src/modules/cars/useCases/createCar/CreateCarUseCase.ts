@@ -1,6 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
 import { ICarsRepository } from "@modules/cars/repositories/ICarsRepository";
+import { Cars } from "@prisma/client";
 import { AppError } from "@shared/errors/AppError";
 
 interface IRequest {
@@ -27,7 +28,7 @@ class CreateCarUseCase {
     fineAmount,
     brand,
     categoryId,
-  }: IRequest): Promise<void> {
+  }: IRequest): Promise<Cars> {
     const carAlreadyExists = await this.carsRepository.findByLicensePlate(
       licensePlate
     );
@@ -38,7 +39,7 @@ class CreateCarUseCase {
       );
     }
 
-    await this.carsRepository.create({
+    const car = await this.carsRepository.create({
       name,
       description,
       dailyRate,
@@ -47,6 +48,8 @@ class CreateCarUseCase {
       brand,
       categoryId,
     });
+
+    return car;
   }
 }
 

@@ -47,4 +47,19 @@ describe("CreateCarUseCase", () => {
       });
     }).rejects.toBeInstanceOf(AppError);
   });
+
+  it("should always create an available car ", async () => {
+    const body = {
+      name: "Car 1",
+      description: "Car 1 description",
+      dailyRate: 100,
+      licensePlate: "ABC-1234",
+      fineAmount: 10,
+      brand: "Fiat",
+      categoryId: "category-1",
+    };
+    const car = await createCarUseCase.execute(body);
+
+    expect(car.available).toBeTruthy();
+  });
 });

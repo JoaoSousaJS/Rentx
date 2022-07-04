@@ -1,4 +1,5 @@
 import { CarsRepositoryInMemory } from "@modules/cars/repositories/in-memory/CarsRepositoryInMemory";
+import { AppError } from "@shared/errors/AppError";
 
 import { CreateCarUseCase } from "./CreateCarUseCase";
 
@@ -21,5 +22,29 @@ describe("CreateCarUseCase", () => {
       brand: "Fiat",
       categoryId: "category-1",
     });
+  });
+
+  it("should not be able to create a car with duplicated license plate", async () => {
+    await createCarUseCase.execute({
+      name: "Car 1",
+      description: "Car 1 description",
+      dailyRate: 100,
+      licensePlate: "ABC-1234",
+      fineAmount: 10,
+      brand: "Fiat",
+      categoryId: "category-1",
+    });
+
+    expect(async () => {
+      await createCarUseCase.execute({
+        name: "Car 1",
+        description: "Car 1 description",
+        dailyRate: 100,
+        licensePlate: "ABC-1234",
+        fineAmount: 10,
+        brand: "Fiat",
+        categoryId: "category-1",
+      });
+    }).rejects.toBeInstanceOf(AppError);
   });
 });

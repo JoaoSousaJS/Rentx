@@ -1,7 +1,7 @@
-import { Specifications } from "@prisma/client";
 import { inject, injectable } from "tsyringe";
 
-import { SpecificationRepository } from "../../repositories/implementations/SpecificationRepository";
+import { SpecificationRepository } from "@modules/cars/infra/prisma/repositories/SpecificationRepository";
+import { Specifications } from "@prisma/client";
 
 @injectable()
 class ListSpecificationsUseCase {

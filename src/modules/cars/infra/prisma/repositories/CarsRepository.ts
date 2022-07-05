@@ -27,7 +27,11 @@ class CarsRepository implements ICarsRepository {
         dailyRate,
         fineAmount,
         licensePlate,
-        categoryId,
+        Categories: {
+          connect: {
+            id: categoryId,
+          },
+        },
         available: true,
       },
     });

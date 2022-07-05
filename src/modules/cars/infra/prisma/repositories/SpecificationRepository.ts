@@ -1,9 +1,8 @@
-import { PrismaClient, Specifications } from "@prisma/client";
-
 import {
-  ISpecificationRepository,
   ICreateSpecificationDTO,
-} from "../ISpecificationRepository";
+  ISpecificationRepository,
+} from "@modules/cars/repositories/ISpecificationRepository";
+import { PrismaClient, Specifications } from "@prisma/client";
 
 const prisma = new PrismaClient();
 

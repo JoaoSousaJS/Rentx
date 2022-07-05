@@ -46,7 +46,7 @@ model Cars {
   description  String
   dailyRate    Int      @map("daily_rate")
   available    Boolean  @default(true)
-  licensePlate String   @map("license_plate")
+  licensePlate String   @unique @map("license_plate")
   fineAmount   Int      @map("fine_amount")
   brand        String
   categoryId   String   @map("category_id")

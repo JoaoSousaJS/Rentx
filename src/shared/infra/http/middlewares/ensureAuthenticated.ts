@@ -1,7 +1,7 @@
+import "dotenv";
 import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken";
 
-import "dotenv";
 import { UsersRepository } from "@modules/accounts/infra/prisma/repositories/UserRepository";
 import { AppError } from "@shared/errors/AppError";
 
@@ -10,8 +10,7 @@ export async function ensureAuthenticated(
   response: Response,
   next: NextFunction
 ) {
-  const authHeader = request.headers.authorization;
-
+  const authHeader = request.headers?.authorization;
   if (!authHeader) {
     throw new AppError("Token missing", 401);
   }
@@ -32,8 +31,7 @@ export async function ensureAuthenticated(
     request.user = {
       id: user.id,
     };
-
-    next();
+    return next();
   } catch (error) {
     throw new AppError("Invalid token", 401);
   }

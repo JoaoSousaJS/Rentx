@@ -21,11 +21,12 @@ model Categories {
 }
 
 model Specifications {
-  id          String   @id @default(uuid())
-  name        String   @unique
-  description String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                   String                 @id @default(uuid())
+  name                 String                 @unique
+  description          String
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @updatedAt
+  SpecificationsOnCars SpecificationsOnCars[]
 }
 
 model Users {
@@ -53,5 +54,18 @@ model Cars {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  Categories Categories @relation(fields: [categoryId], references: [id], onDelete: SetNull, onUpdate: SetNull)
+  Categories           Categories             @relation(fields: [categoryId], references: [id], onDelete: SetNull, onUpdate: SetNull)
+  SpecificationsOnCars SpecificationsOnCars[]
+}
+
+model SpecificationsOnCars {
+  specifications  Specifications @relation(fields: [specificationId], references: [id], onDelete: SetNull, onUpdate: SetNull)
+  specificationId String         @map("specification_id")
+  cars            Cars           @relation(fields: [carId], references: [id], onDelete: SetNull, onUpdate: SetNull)
+  carId           String         @map("car_id")
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+
+
+  @@id([carId, specificationId])
 }
